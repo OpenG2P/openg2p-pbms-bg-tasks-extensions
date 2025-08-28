@@ -26,8 +26,8 @@ dynamic = ["version"]
 [project.urls]
 Homepage = "https://openg2p.org"
 Documentation = "https://docs.openg2p.org/"
-Repository = "https://github.com/OpenG2P/openg2p-pbms-gen2-bg-tasks"
-Source = "https://github.com/OpenG2P/openg2p-pbms-gen2-bg-tasks"
+Repository = "https://github.com/OpenG2P/openg2p-pbms-gen2-bg-tasks-registry-addons"
+Source = "https://github.com/OpenG2P/openg2p-pbms-gen2-bg-tasks-registry-addons"
 
 [tool.hatch.version]
 path = "src/openg2p_bg_task_registry_adapters/__init__.py"
