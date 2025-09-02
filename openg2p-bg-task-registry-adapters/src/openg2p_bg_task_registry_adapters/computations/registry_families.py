@@ -15,19 +15,19 @@ from sqlalchemy.orm import Session
 from ..cache import beneficiary_count_key_builder
 from ..interface import RegistryInterface
 from ..models import (
-    BeneficiaryListSummaryWorker as BeneficiaryListSummaryWorkerModel,
-    G2PWorkerRegistry,
+    BeneficiaryListSummaryFamilies as BeneficiaryListSummaryFamiliesModel,
+    G2PRegistryFamilies,
 )
 from ..schema import (
     BeneficiaryListSummary,
-    BeneficiaryListSummaryWorker,
-    BeneficiaryListSummaryWorkerPayload,
-    G2PWorkerRegistryPayload,
+    BeneficiaryListSummaryFamilies,
+    BeneficiaryListSummaryFamiliesPayload,
+    G2PRegistryFamiliesPayload,
 )
 
 
-class RegistryWorker(RegistryInterface):
-    """Fetches worker data and computes summary statistics"""
+class RegistryFamilies(RegistryInterface):
+    """Fetches family data and computes summary statistics"""
 
     # ===================
     # Summary API Methods
@@ -37,62 +37,62 @@ class RegistryWorker(RegistryInterface):
         beneficiary_list_id: str,
         bg_task_session: AsyncSession,
         formated: bool = False,
-    ) -> BeneficiaryListSummaryWorkerPayload:
+    ) -> BeneficiaryListSummaryFamiliesPayload:
         result = await bg_task_session.execute(
-            select(BeneficiaryListSummaryWorkerModel).where(
-                BeneficiaryListSummaryWorkerModel.beneficiary_list_id == beneficiary_list_id
+            select(BeneficiaryListSummaryFamiliesModel).where(
+                BeneficiaryListSummaryFamiliesModel.beneficiary_list_id == beneficiary_list_id
             )
         )
-        summary_worker = result.scalars().first()
-        if not summary_worker:
+        summary_families = result.scalars().first()
+        if not summary_families:
             return None
 
-        return BeneficiaryListSummaryWorkerPayload(
+        return BeneficiaryListSummaryFamiliesPayload(
             beneficiary_list_summary=BeneficiaryListSummary(
-                id=summary_worker.id,
-                program_id=summary_worker.program_id,
-                program_mnemonic=summary_worker.program_mnemonic,
-                target_registry=summary_worker.target_registry,
-                beneficiary_list_id=summary_worker.beneficiary_list_id,
-                number_of_registrants=summary_worker.number_of_registrants,
-                date_created=summary_worker.date_created,
-                total_disbursement_quantity=summary_worker.total_disbursement_quantity,
-                average_entitlement_per_registrant=summary_worker.average_entitlement_per_person,
+                id=summary_families.id,
+                program_id=summary_families.program_id,
+                program_mnemonic=summary_families.program_mnemonic,
+                target_registry=summary_families.target_registry,
+                beneficiary_list_id=summary_families.beneficiary_list_id,
+                number_of_registrants=summary_families.number_of_registrants,
+                date_created=summary_families.date_created,
+                total_disbursement_quantity=summary_families.total_disbursement_quantity,
+                average_entitlement_per_registrant=summary_families.average_entitlement_per_person,
             ),
-            registry_summary=BeneficiaryListSummaryWorker(
-                entitlement_amount_q3=summary_worker.entitlement_amount_q3,
-                entitlement_amount_q2=summary_worker.entitlement_amount_q2,
-                entitlement_amount_q1=summary_worker.entitlement_amount_q1,
+            registry_summary=BeneficiaryListSummaryFamilies(
+                entitlement_amount_q3=summary_families.entitlement_amount_q3,
+                entitlement_amount_q2=summary_families.entitlement_amount_q2,
+                entitlement_amount_q1=summary_families.entitlement_amount_q1,
             ),
         )
 
     def get_summary_sync(
         self, beneficiary_list_id: str, bg_task_session: Session
-    ) -> BeneficiaryListSummaryWorkerPayload:
-        summary_worker = (
-            bg_task_session.query(BeneficiaryListSummaryWorkerModel)
+    ) -> BeneficiaryListSummaryFamiliesPayload:
+        summary_families = (
+            bg_task_session.query(BeneficiaryListSummaryFamiliesModel)
             .filter_by(beneficiary_list_id=beneficiary_list_id)
             .first()
         )
-        if not summary_worker:
+        if not summary_families:
             return None
 
-        return BeneficiaryListSummaryWorkerPayload(
+        return BeneficiaryListSummaryFamiliesPayload(
             beneficiary_list_summary=BeneficiaryListSummary(
-                id=summary_worker.id,
-                program_id=summary_worker.program_id,
-                program_mnemonic=summary_worker.program_mnemonic,
-                target_registry=summary_worker.target_registry,
-                beneficiary_list_id=summary_worker.beneficiary_list_id,
-                number_of_registrants=summary_worker.number_of_registrants,
-                date_created=summary_worker.date_created,
-                total_disbursement_quantity=summary_worker.total_disbursement_quantity,
-                average_entitlement_per_registrant=summary_worker.average_entitlement_per_person,
+                id=summary_families.id,
+                program_id=summary_families.program_id,
+                program_mnemonic=summary_families.program_mnemonic,
+                target_registry=summary_families.target_registry,
+                beneficiary_list_id=summary_families.beneficiary_list_id,
+                number_of_registrants=summary_families.number_of_registrants,
+                date_created=summary_families.date_created,
+                total_disbursement_quantity=summary_families.total_disbursement_quantity,
+                average_entitlement_per_registrant=summary_families.average_entitlement_per_person,
             ),
-            registry_summary=BeneficiaryListSummaryWorker(
-                entitlement_amount_q3=summary_worker.entitlement_amount_q3,
-                entitlement_amount_q2=summary_worker.entitlement_amount_q2,
-                entitlement_amount_q1=summary_worker.entitlement_amount_q1,
+            registry_summary=BeneficiaryListSummaryFamilies(
+                entitlement_amount_q3=summary_families.entitlement_amount_q3,
+                entitlement_amount_q2=summary_families.entitlement_amount_q2,
+                entitlement_amount_q1=summary_families.entitlement_amount_q1,
             ),
         )
 
@@ -122,11 +122,11 @@ class RegistryWorker(RegistryInterface):
             for registrant in registrant_detail
         ]
 
-        worker_search_query, worker_search_params = self.construct_beneficiary_search_sql_query(
+        families_search_query, families_search_params = self.construct_beneficiary_search_sql_query(
             registrant_ids, target_registry, search_query, order_by, page_size, page
         )
-        worker_search_results = (
-            (await sr_session.execute(worker_search_query, worker_search_params))
+        families_search_results = (
+            (await sr_session.execute(families_search_query, families_search_params))
             .mappings()
             .all()
         )
@@ -135,20 +135,15 @@ class RegistryWorker(RegistryInterface):
             sr_session, beneficiary_list_id, registrant_ids, search_query
         )
         beneficiaries = [
-            G2PWorkerRegistryPayload(
-                id=worker["id"],
-                unique_id=worker["unique_id"],
-                name=worker["name"],
-                email=worker["email"],
-                phone=worker["phone"],
-                age_group=worker["age_group"],
-                province_id=worker["province_id"],
-                district_id=worker["district_id"],
-                constituency_id=worker["constituency_id"],
-                ward_id=worker["ward_id"],
+            G2PRegistryFamiliesPayload(
+                id=families.get("id"),
+                unique_id=families.get("unique_id"),
+                hof_individual_registry_id=families.get("hof_individual_registry_id"),
+                hof_individual_unique_id=families.get("hof_individual_unique_id"),
+                hof_individual_name=families.get("hof_individual_name"),
             )
-            for worker in worker_search_results
-        ] if worker_search_results else []
+            for families in families_search_results
+        ] if families_search_results else []
 
         return BeneficiarySearchResponsePayload(
             total_beneficiary_count=total_beneficiary_count,
@@ -166,7 +161,7 @@ class RegistryWorker(RegistryInterface):
         search_query: str,
     ) -> int:
         beneficiary_count_query, beneficiary_count_params = self.construct_beneficiary_search_count_sql_query(
-            registrant_ids, "worker", search_query
+            registrant_ids, "families", search_query
         )
         total_beneficiary_count = (
             await sr_session.execute(beneficiary_count_query, beneficiary_count_params)
@@ -174,7 +169,7 @@ class RegistryWorker(RegistryInterface):
         return total_beneficiary_count
 
     # =================================
-    # Eligibility Celery Worker Methods
+    # Eligibility Celery Families Methods
     # =================================
     def compute_eligibility_statistics(
         self,
@@ -183,7 +178,7 @@ class RegistryWorker(RegistryInterface):
         sr_session: Session,
         bg_task_session: Session,
     ):
-        worker_summary = BeneficiaryListSummaryWorkerModel(
+        families_summary = BeneficiaryListSummaryFamiliesModel(
             program_id=base_summary.program_id,
             program_mnemonic=base_summary.program_mnemonic,
             target_registry=base_summary.target_registry,
@@ -192,31 +187,24 @@ class RegistryWorker(RegistryInterface):
             date_created=base_summary.date_created,
         )
 
-        for beneficiary_list_detail in beneficiary_list_details:
-            registrant_ids = [
-                RegistrantDetails(**registrant_detail).registrant_id
-                for registrant_detail in beneficiary_list_detail.registrant_details
-            ]
-            registrants = self.get_registrants_by_ids(registrant_ids, sr_session)
-
-        bg_task_session.add(worker_summary)
+        bg_task_session.add(families_summary)
 
     def get_registrants_by_ids(
         self, registrant_ids: List[str], sr_session: Session
-    ) -> List[G2PWorkerRegistry]:
-        workers = sr_session.query(G2PWorkerRegistry).filter(
-            G2PWorkerRegistry.unique_id.in_(registrant_ids)
+    ) -> List[G2PRegistryFamilies]:
+        families = sr_session.query(G2PRegistryFamilies).filter(
+            G2PRegistryFamilies.unique_id.in_(registrant_ids)
         )
-        return list(workers.yield_per(500))
+        return list(families.yield_per(500))
 
     # =================================
-    # Entitlement Celery Worker Methods
+    # Entitlement Celery Families Methods
     # =================================
     def get_is_registant_entitled(
         self, registrant_id: str, sql_query: str, sr_session: Session
     ) -> bool:
         sql_query_with_registrant_id = self.construct_get_is_registrant_entitled_sql_query(
-            registrant_id, "worker", sql_query
+            registrant_id, "families", sql_query
         )
         result = sr_session.execute(sql_query_with_registrant_id).fetchone()
         return result is not None
@@ -228,7 +216,7 @@ class RegistryWorker(RegistryInterface):
             return 1
 
         sql_query = self.construct_multiplier_sql_query(
-            multiplier, target_registry="worker"
+            multiplier, target_registry="families"
         )
         params = {"registrant_id": registrant_id}
         result = sr_session.execute(sql_query, params).fetchone()
@@ -243,14 +231,14 @@ class RegistryWorker(RegistryInterface):
             .all()
         )
 
-        registrant_map_from_registry: Dict[str, G2PWorkerRegistry] = {}
+        registrant_map_from_registry: Dict[str, G2PRegistryFamilies] = {}
 
         for beneficiary_list_detail in beneficiary_list_details:
             registrant_ids = [
                 RegistrantDetails(**registrant_detail).registrant_id
                 for registrant_detail in beneficiary_list_detail.registrant_details
             ]
-            registrants_list: List[G2PWorkerRegistry] = self.get_registrants_by_ids(
+            registrants_list: List[G2PRegistryFamilies] = self.get_registrants_by_ids(
                 registrant_ids, sr_session
             )
             for registrant in registrants_list:
@@ -271,9 +259,9 @@ class RegistryWorker(RegistryInterface):
         entitlement_stats = self.compute_stats_dict(entitlements)
 
         bg_task_session.execute(
-            update(BeneficiaryListSummaryWorkerModel)
+            update(BeneficiaryListSummaryFamiliesModel)
             .where(
-                BeneficiaryListSummaryWorkerModel.beneficiary_list_id == beneficiary_list_id
+                BeneficiaryListSummaryFamiliesModel.beneficiary_list_id == beneficiary_list_id
             )
             .values(
                 total_disbursement_quantity=dict(entitlement_stats["total"]),

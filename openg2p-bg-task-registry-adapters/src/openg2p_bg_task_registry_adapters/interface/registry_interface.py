@@ -116,7 +116,7 @@ class RegistryInterface(ABC):
         if not multiplier or multiplier == "none":
             return None
 
-        table_name = f"g2p_{target_registry}_registry"
+        table_name = f"g2p_registry_{target_registry}"
         sql_query = text(
             f"""
             SELECT {multiplier} FROM {table_name}
@@ -141,7 +141,7 @@ class RegistryInterface(ABC):
         where_clause = where_clause.replace("“", '"').replace("”", '"')
         where_clause = where_clause.replace("‘", "'").replace("’", "'")
 
-        table_name = f"g2p_{target_registry}_registry"
+        table_name = f"g2p_registry_{target_registry}"
         where_clause_sql = f" AND {where_clause}" if where_clause else ""
         registrant_placeholders = ", ".join(
             [f":registrant_id_{i}" for i in range(len(registrant_ids))]
@@ -174,7 +174,7 @@ class RegistryInterface(ABC):
         where_clause = where_clause.replace("“", '"').replace("”", '"')
         where_clause = where_clause.replace("‘", "'").replace("’", "'")
 
-        table_name = f"g2p_{target_registry}_registry"
+        table_name = f"g2p_registry_{target_registry}"
         where_clause_sql = f" AND {where_clause}" if where_clause else ""
         registrant_placeholders = ", ".join(
             [f":registrant_id_{i}" for i in range(len(registrant_ids))]
@@ -205,11 +205,11 @@ class RegistryInterface(ABC):
 
         if "WHERE" in sql_query.upper():
             sql_query += (
-                f" AND g2p_{target_registry}_registry.unique_id = :registrant_id"
+                f" AND g2p_registry_{target_registry}.unique_id = :registrant_id"
             )
         else:
             sql_query += (
-                f" WHERE g2p_{target_registry}_registry.unique_id = :registrant_id"
+                f" WHERE g2p_registry_{target_registry}.unique_id = :registrant_id"
             )
 
         params = {"registrant_id": registrant_id}
