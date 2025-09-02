@@ -8,7 +8,7 @@ class G2PRegistryIndividuals(G2PRegistry):
     __tablename__ = "g2p_registry_individuals"
 
     individual_unique_id = mapped_column(String, nullable=True, doc="MOSIP generated unique ID for individual")
-    owner_aadhaar = mapped_column(String, nullable=True, doc="Aadhaar number of the individual")
+    aadhaar_id = mapped_column(String, nullable=True, doc="Aadhaar number of the individual")
     family_unique_id = mapped_column(String, nullable=True, doc="MOSIP generated unique ID for family")
     family_registry_id = mapped_column(Integer, nullable=True, doc="Reference to family registry record")
     ration_card_id = mapped_column(String, nullable=True, doc="Ration card identifier")

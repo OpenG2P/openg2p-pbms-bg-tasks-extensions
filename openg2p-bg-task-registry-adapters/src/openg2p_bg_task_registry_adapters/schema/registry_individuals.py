@@ -4,7 +4,7 @@ from .registry import G2PRegistryPayload
 
 class G2PRegistryIndividualsPayload(G2PRegistryPayload):
     individual_unique_id: Optional[str] = None
-    owner_aadhaar: Optional[str] = None
+    aadhaar_id: Optional[str] = None
     family_unique_id: Optional[str] = None
     family_registry_id: Optional[int] = None
     ration_card_id: Optional[str] = None

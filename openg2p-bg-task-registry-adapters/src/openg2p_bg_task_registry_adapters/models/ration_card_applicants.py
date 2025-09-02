@@ -10,7 +10,7 @@ class G2PRegistryRationCardApplicants(G2PRegistry):
     ration_card_application_id = mapped_column(String, nullable=True)
     individual_registry_id = mapped_column(Integer, nullable=True)
     individual_unique_id = mapped_column(String, nullable=True)
-    applicant_aadhaar = mapped_column(String, nullable=True)
+    aadhaar_id = mapped_column(String, nullable=True)
     family_unique_id = mapped_column(String, nullable=True)
     family_registry_id = mapped_column(Integer, nullable=True)
     application_date = mapped_column(Date, nullable=True)

@@ -8,7 +8,7 @@ class G2PRegistryRationCardApplicantsPayload(G2PRegistryPayload):
     ration_card_application_id: Optional[str] = None
     individual_registry_id: Optional[int] = None
     individual_unique_id: Optional[str] = None
-    applicant_aadhaar: Optional[str] = None
+    aadhaar_id: Optional[str] = None
     family_unique_id: Optional[str] = None
     family_registry_id: Optional[int] = None
     application_date: Optional[date] = None
