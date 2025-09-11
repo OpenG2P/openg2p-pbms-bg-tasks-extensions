@@ -10,7 +10,6 @@ class G2PWorkerRegistry(G2PRegistry):
     email = mapped_column(String, nullable=False)
     phone = mapped_column(String, nullable=False)
 
-    age_group = mapped_column(String, nullable=True)  # "18_35", "36_54", "55_plus"
     province_id = mapped_column(Integer, nullable=True)
     district_id = mapped_column(Integer, nullable=True)
     constituency_id = mapped_column(Integer, nullable=True)

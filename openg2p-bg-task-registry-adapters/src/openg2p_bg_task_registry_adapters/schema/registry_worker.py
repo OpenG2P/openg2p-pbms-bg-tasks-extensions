@@ -8,7 +8,6 @@ class G2PWorkerRegistryPayload(G2PRegistryPayload):
     name: Optional[str] = None
     email: Optional[str] = None
     phone: Optional[str] = None
-    age_group: Optional[str] = None
     province_id: Optional[int] = None
     district_id: Optional[int] = None
     constituency_id: Optional[int] = None

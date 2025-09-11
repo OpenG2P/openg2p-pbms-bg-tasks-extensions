@@ -141,7 +141,6 @@ class RegistryWorker(RegistryInterface):
                 name=worker["name"],
                 email=worker["email"],
                 phone=worker["phone"],
-                age_group=worker["age_group"],
                 province_id=worker["province_id"],
                 district_id=worker["district_id"],
                 constituency_id=worker["constituency_id"],
