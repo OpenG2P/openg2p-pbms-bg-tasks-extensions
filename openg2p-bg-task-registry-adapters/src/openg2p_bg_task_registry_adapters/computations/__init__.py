@@ -1,3 +1,3 @@
 from .registry_worker import RegistryWorker
-from .registry_worker_daily import RegistryWorkerDaily
-from .registry_worker_monthly import RegistryWorkerMonthly
+from .registry_monthly_attendance import RegistryMonthlyAttendance
+from .registry_monthly_availability import RegistryMonthlyAvailability

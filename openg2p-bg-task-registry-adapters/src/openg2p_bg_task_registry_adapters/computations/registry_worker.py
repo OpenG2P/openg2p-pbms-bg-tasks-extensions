@@ -16,13 +16,13 @@ from ..cache import beneficiary_count_key_builder
 from ..interface import RegistryInterface
 from ..models import (
     BeneficiaryListSummaryWorker as BeneficiaryListSummaryWorkerModel,
-    G2PWorkerRegistry,
+    G2PRegistryWorker,
 )
 from ..schema import (
     BeneficiaryListSummary,
     BeneficiaryListSummaryWorker,
     BeneficiaryListSummaryWorkerPayload,
-    G2PWorkerRegistryPayload,
+    G2PRegistryWorkerPayload,
 )
 
 
@@ -135,7 +135,7 @@ class RegistryWorker(RegistryInterface):
             sr_session, beneficiary_list_id, registrant_ids, search_query
         )
         beneficiaries = [
-            G2PWorkerRegistryPayload(
+            G2PRegistryWorkerPayload(
                 id=worker["id"],
                 unique_id=worker["unique_id"],
                 name=worker["name"],
@@ -202,9 +202,9 @@ class RegistryWorker(RegistryInterface):
 
     def get_registrants_by_ids(
         self, registrant_ids: List[str], sr_session: Session
-    ) -> List[G2PWorkerRegistry]:
-        workers = sr_session.query(G2PWorkerRegistry).filter(
-            G2PWorkerRegistry.unique_id.in_(registrant_ids)
+    ) -> List[G2PRegistryWorker]:
+        workers = sr_session.query(G2PRegistryWorker).filter(
+            G2PRegistryWorker.unique_id.in_(registrant_ids)
         )
         return list(workers.yield_per(500))
 
@@ -242,14 +242,14 @@ class RegistryWorker(RegistryInterface):
             .all()
         )
 
-        registrant_map_from_registry: Dict[str, G2PWorkerRegistry] = {}
+        registrant_map_from_registry: Dict[str, G2PRegistryWorker] = {}
 
         for beneficiary_list_detail in beneficiary_list_details:
             registrant_ids = [
                 RegistrantDetails(**registrant_detail).registrant_id
                 for registrant_detail in beneficiary_list_detail.registrant_details
             ]
-            registrants_list: List[G2PWorkerRegistry] = self.get_registrants_by_ids(
+            registrants_list: List[G2PRegistryWorker] = self.get_registrants_by_ids(
                 registrant_ids, sr_session
             )
             for registrant in registrants_list:

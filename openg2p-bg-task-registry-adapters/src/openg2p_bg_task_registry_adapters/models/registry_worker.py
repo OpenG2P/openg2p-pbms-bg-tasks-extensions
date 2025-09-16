@@ -3,7 +3,7 @@ from sqlalchemy import Integer, String
 from sqlalchemy.orm import mapped_column
 
 
-class G2PWorkerRegistry(G2PRegistry):
+class G2PRegistryWorker(G2PRegistry):
     __tablename__ = "g2p_worker_registry"
 
     name = mapped_column(String, nullable=False)

@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from ..interface import RegistryInterface
 
 
-class RegistryWorkerMonthly(RegistryInterface):
+class RegistryMonthlyAvailability(RegistryInterface):
     async def get_summary(
         self, beneficiary_list_id: str, bg_task_session: Session, formated: bool = False
     ):
@@ -64,7 +64,7 @@ class RegistryWorkerMonthly(RegistryInterface):
         self, registrant_id: str, sql_query: str, sr_session: Session
     ) -> bool:
         sql_query_with_registrant_id = self.construct_get_is_registrant_entitled_sql_query(
-            registrant_id, "worker_monthly", sql_query
+            registrant_id, "monthly_availability", sql_query
         )
         result = sr_session.execute(sql_query_with_registrant_id).fetchone()
         return result is not None
@@ -76,7 +76,7 @@ class RegistryWorkerMonthly(RegistryInterface):
             return 1
 
         sql_query = self.construct_multiplier_sql_query(
-            multiplier, target_registry="worker_monthly"
+            multiplier, target_registry="monthly_availability"
         )
         params = {"registrant_id": registrant_id}
         result = sr_session.execute(sql_query, params).fetchone()

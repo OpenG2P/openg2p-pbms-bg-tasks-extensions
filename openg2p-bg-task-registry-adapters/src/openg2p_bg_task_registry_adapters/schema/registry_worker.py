@@ -3,7 +3,7 @@ from typing import Optional
 from .registry import G2PRegistryPayload
 
 
-class G2PWorkerRegistryPayload(G2PRegistryPayload):
+class G2PRegistryWorkerPayload(G2PRegistryPayload):
     unique_id: Optional[int] = None
     name: Optional[str] = None
     email: Optional[str] = None
