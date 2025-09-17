@@ -137,7 +137,7 @@ class RegistryFamilies(RegistryInterface):
         beneficiaries = [
             G2PRegistryFamiliesPayload(
                 id=families.get("id"),
-                unique_id=families.get("unique_id"),
+                link_registry_id=families.get("link_registry_id"),
                 hof_individual_registry_id=families.get("hof_individual_registry_id"),
                 hof_individual_unique_id=families.get("hof_individual_unique_id"),
                 hof_individual_name=families.get("hof_individual_name"),
@@ -193,7 +193,7 @@ class RegistryFamilies(RegistryInterface):
         self, registrant_ids: List[str], sr_session: Session
     ) -> List[G2PRegistryFamilies]:
         families = sr_session.query(G2PRegistryFamilies).filter(
-            G2PRegistryFamilies.unique_id.in_(registrant_ids)
+            G2PRegistryFamilies.link_registry_id.in_(registrant_ids)
         )
         return list(families.yield_per(500))
 
@@ -242,7 +242,7 @@ class RegistryFamilies(RegistryInterface):
                 registrant_ids, sr_session
             )
             for registrant in registrants_list:
-                registrant_map_from_registry[str(registrant.unique_id)] = registrant
+                registrant_map_from_registry[str(registrant.link_registry_id)] = registrant
 
         entitlements: Dict[int, list[float]] = {}
 
