@@ -215,7 +215,7 @@ class RegistryFarmer(RegistryInterface):
             beneficiaries = [
                 G2PFarmerRegistryPayload(
                     id=farmer["id"],
-                    unique_id=farmer["unique_id"],
+                    link_registry_id=farmer["link_registry_id"],
                     name=farmer["name"],
                     land_area=farmer["land_area"],
                     annual_income=farmer["annual_income"],
@@ -327,7 +327,7 @@ class RegistryFarmer(RegistryInterface):
         self, registrant_ids, sr_session
     ) -> List[G2PFarmerRegistry]:
         farmers = sr_session.query(G2PFarmerRegistry).filter(
-            G2PFarmerRegistry.unique_id.in_(registrant_ids)
+            G2PFarmerRegistry.link_registry_id.in_(registrant_ids)
         )
 
         return list(farmers.yield_per(500))
@@ -386,7 +386,7 @@ class RegistryFarmer(RegistryInterface):
             )
 
             for registrant in registrants_list:
-                registrant_map_from_registry[str(registrant.unique_id)] = registrant
+                registrant_map_from_registry[str(registrant.link_registry_id)] = registrant
 
         # Collect entitlements per benefit_code_id
         entitlements: dict[int, list[float]] = {}

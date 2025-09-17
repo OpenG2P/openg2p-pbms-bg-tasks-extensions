@@ -3,9 +3,6 @@ from openg2p_bg_task_models.errors import BGTaskErrorCodes, BGTaskException
 from ..computations import (
     RegistryFarmer,
     RegistryStudent,
-    RegistryWorker,
-    RegistryWorkerDaily,
-    RegistryWorkerMonthly
 )
 from ..interface import RegistryInterface
 from ..models import G2PRegistryType

@@ -120,7 +120,7 @@ class RegistryInterface(ABC):
         sql_query = text(
             f"""
             SELECT {multiplier} FROM {table_name}
-            WHERE unique_id = :registrant_id
+            WHERE link_registry_id = :registrant_id
             """
         )
         return sql_query
@@ -150,7 +150,7 @@ class RegistryInterface(ABC):
         sql_query = text(
             f"""
             SELECT * FROM {table_name}
-            WHERE unique_id IN ({registrant_placeholders}) {where_clause_sql}
+            WHERE link_registry_id IN ({registrant_placeholders}) {where_clause_sql}
             ORDER BY {order_by}
             OFFSET :offset
             LIMIT :limit
@@ -183,7 +183,7 @@ class RegistryInterface(ABC):
         sql_query = text(
             f"""
             SELECT COUNT(*) FROM {table_name}
-            WHERE unique_id IN ({registrant_placeholders}) {where_clause_sql}
+            WHERE link_registry_id IN ({registrant_placeholders}) {where_clause_sql}
         """
         )
 
@@ -205,11 +205,11 @@ class RegistryInterface(ABC):
 
         if "WHERE" in sql_query.upper():
             sql_query += (
-                f" AND g2p_{target_registry}_registry.unique_id = :registrant_id"
+                f" AND g2p_{target_registry}_registry.link_registry_id = :registrant_id"
             )
         else:
             sql_query += (
-                f" WHERE g2p_{target_registry}_registry.unique_id = :registrant_id"
+                f" WHERE g2p_{target_registry}_registry.link_registry_id = :registrant_id"
             )
 
         params = {"registrant_id": registrant_id}

@@ -212,7 +212,7 @@ class RegistryStudent(RegistryInterface):
             beneficiaries = [
                 G2PStudentRegistryPayload(
                     id=student["id"],
-                    unique_id=student["unique_id"],
+                    link_registry_id=student["link_registry_id"],
                     name=student["name"],
                     institution_name=student["institution_name"],
                     date_of_birth=student["date_of_birth"],
@@ -305,7 +305,7 @@ class RegistryStudent(RegistryInterface):
             return []
         return (
             sr_session.query(G2PStudentRegistry)
-            .filter(G2PStudentRegistry.unique_id.in_(registrant_ids))
+            .filter(G2PStudentRegistry.link_registry_id.in_(registrant_ids))
             .all()
         )
 
@@ -406,7 +406,7 @@ class RegistryStudent(RegistryInterface):
             )
 
             for registrant in registrants_list:
-                registrant_map[str(registrant.unique_id)] = registrant
+                registrant_map[str(registrant.link_registry_id)] = registrant
 
         # Collect entitlements per benefit_code_id
         entitlements: Dict[Any, list[float]] = {}
