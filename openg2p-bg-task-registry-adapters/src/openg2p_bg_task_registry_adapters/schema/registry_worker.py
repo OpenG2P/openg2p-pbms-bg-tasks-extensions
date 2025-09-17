@@ -4,7 +4,7 @@ from .registry import G2PRegistryPayload
 
 
 class G2PRegistryWorkerPayload(G2PRegistryPayload):
-    unique_id: Optional[int] = None
+    link_registry_id: Optional[int] = None
     name: Optional[str] = None
     email: Optional[str] = None
     phone: Optional[str] = None

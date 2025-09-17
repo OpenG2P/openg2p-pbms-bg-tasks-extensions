@@ -137,7 +137,7 @@ class RegistryWorker(RegistryInterface):
         beneficiaries = [
             G2PRegistryWorkerPayload(
                 id=worker["id"],
-                unique_id=worker["unique_id"],
+                link_registry_id=worker["link_registry_id"],
                 name=worker["name"],
                 email=worker["email"],
                 phone=worker["phone"],
@@ -204,7 +204,7 @@ class RegistryWorker(RegistryInterface):
         self, registrant_ids: List[str], sr_session: Session
     ) -> List[G2PRegistryWorker]:
         workers = sr_session.query(G2PRegistryWorker).filter(
-            G2PRegistryWorker.unique_id.in_(registrant_ids)
+            G2PRegistryWorker.link_registry_id.in_(registrant_ids)
         )
         return list(workers.yield_per(500))
 
@@ -253,7 +253,7 @@ class RegistryWorker(RegistryInterface):
                 registrant_ids, sr_session
             )
             for registrant in registrants_list:
-                registrant_map_from_registry[str(registrant.unique_id)] = registrant
+                registrant_map_from_registry[str(registrant.link_registry_id)] = registrant
 
         entitlements: Dict[int, list[float]] = {}
 
