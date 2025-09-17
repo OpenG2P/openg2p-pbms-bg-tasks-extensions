@@ -2,9 +2,6 @@ import enum
 
 
 class G2PRegistryType(enum.Enum):
-    FARMER = "farmer"
-    STUDENT = "student"
     WORKER = "worker"
-    WORKER_DAILY = "worker_daily"
-    WORKER_MONTHLY = "worker_monthly"
-    OTHER = "other"
+    MONTHLY_ATTENDANCE = "monthly_attendance"
+    MONTHLY_AVAILABILITY = "monthly_availability"
