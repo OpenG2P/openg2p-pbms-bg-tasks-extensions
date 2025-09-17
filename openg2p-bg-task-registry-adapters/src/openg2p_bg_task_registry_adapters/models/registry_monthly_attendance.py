@@ -3,7 +3,7 @@ from sqlalchemy import String, Date
 from sqlalchemy.orm import mapped_column
 
 class G2PRegistryMonthlyAttendance(G2PRegistry):
-    __tablename__ = "g2p_monthly_attendance_registry"
+    __tablename__ = "g2p_registry_monthly_attendance"
 
     nrc_number = mapped_column(String, nullable=True)
     attendance_month = mapped_column(Date, nullable=True)

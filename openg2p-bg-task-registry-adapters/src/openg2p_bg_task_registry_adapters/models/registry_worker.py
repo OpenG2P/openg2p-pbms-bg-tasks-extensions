@@ -4,7 +4,7 @@ from sqlalchemy.orm import mapped_column
 
 
 class G2PRegistryWorker(G2PRegistry):
-    __tablename__ = "g2p_worker_registry"
+    __tablename__ = "g2p_registry_worker"
 
     name = mapped_column(String, nullable=False)
     email = mapped_column(String, nullable=False)
