@@ -63,18 +63,10 @@ class RegistryStudent(RegistryInterface):
                 program_mnemonic=beneficiary_list_summary_student.program_mnemonic,
                 target_registry=beneficiary_list_summary_student.target_registry,
                 beneficiary_list_id=beneficiary_list_summary_student.beneficiary_list_id,
-                number_of_registrants=format(beneficiary_list_summary_student.number_of_registrants, ","),
+                number_of_registrants=beneficiary_list_summary_student.number_of_registrants,
                 date_created=beneficiary_list_summary_student.date_created,
-                total_disbursement_quantity=(
-                    f"{beneficiary_list_summary_student.total_disbursement_quantity:,} {beneficiary_list_summary_student.entitlement_units}"
-                    if beneficiary_list_summary_student.total_disbursement_quantity is not None and beneficiary_list_summary_student.entitlement_units
-                    else None
-                ),
-                average_entitlement_per_registrant=(
-                    f"{beneficiary_list_summary_student.average_entitlement_per_person:,} {beneficiary_list_summary_student.entitlement_units}"
-                    if beneficiary_list_summary_student.average_entitlement_per_person is not None and beneficiary_list_summary_student.entitlement_units
-                    else None
-                ),
+                total_disbursement_quantity=beneficiary_list_summary_student.total_disbursement_quantity,
+                average_entitlement_per_registrant=beneficiary_list_summary_student.average_entitlement_per_person,
             ),
             registry_summary=BeneficiaryListSummaryStudent(
                 age_mean=f"{beneficiary_list_summary_student.age_mean} {beneficiary_list_summary_student.age_units}"
