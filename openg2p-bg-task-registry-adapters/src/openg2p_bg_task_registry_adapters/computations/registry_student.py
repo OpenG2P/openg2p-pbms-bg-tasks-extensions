@@ -201,6 +201,7 @@ class RegistryStudent(RegistryInterface):
                     id=student["id"],
                     link_registry_id=student["link_registry_id"],
                     name=student["name"],
+                    gender=student["gender"],
                     institution_name=student["institution_name"],
                     date_of_birth=student["date_of_birth"],
                     small_area_code=student["small_area_code"],
