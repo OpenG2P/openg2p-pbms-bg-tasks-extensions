@@ -38,7 +38,10 @@ class RegistryStudent(RegistryInterface):
     # Summary API Methods
     # ===================
     async def get_summary(
-        self, beneficiary_list_id: int, bg_task_session: AsyncSession
+        self,
+        beneficiary_list_id: str,
+        bg_task_session: AsyncSession,
+        formated: bool = False,
     ) -> BeneficiaryListSummaryStudentPayload:
         _logger.info(f"Fetching summary for beneficiary_list_id: {beneficiary_list_id}")
         beneficiary_list_summary_student = await bg_task_session.execute(
