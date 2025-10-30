@@ -5,7 +5,7 @@ from openg2p_bg_task_models.schemas import (
     BeneficiarySearchResponsePayload,
     Disbursement,
 )
-from openg2p_pbms_models.models import G2PRegistry
+from openg2p_pbms_models.models import G2PRegistry, BeneficiaryListDetails
 from sqlalchemy import TextClause, text
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Session
@@ -24,34 +24,42 @@ class RegistryInterface(ABC):
     # ================
     @abstractmethod
     async def get_summary(
-        self, beneficiary_list_id: str, bg_task_session: Session, formated: bool = False
+        self, beneficiary_list_id: str, bg_task_session: AsyncSession, formated: bool = False
     ) -> BeneficiaryListSummaryPayload:
-        # Abstract method to get summary statistics
+        """
+        Abstract method to get async summary statistics for a given beneficiary_list_id.
+        """
         raise NotImplementedError("Subclasses must implement get_summary()")
 
     @abstractmethod
     def get_summary_sync(
         self, beneficiary_list_id: str, bg_task_session: Session
     ) -> BeneficiaryListSummaryPayload:
-        # Abstract method to get summary statistics
+        """
+        Abstract method to get synchronous summary statistics for a given beneficiary_list_id.
+        """
         raise NotImplementedError("Subclasses must implement get_summary_sync()")
 
     @abstractmethod
     def compute_eligibility_statistics(
         self,
-        beneficiary_list_details: List[dict],
+        beneficiary_list_details: List[BeneficiaryListDetails],
         base_summary,
         sr_session: Session,
         bg_task_session: Session,
     ):
-        # Abstract method to compute summary statistics
-        raise NotImplementedError("Subclasses must implement compute_summary()")
+        """
+        Abstract method to compute eligibility summary statistics and update the summary table.
+        """
+        raise NotImplementedError("Subclasses must implement compute_eligibility_statistics()")
 
     @abstractmethod
     def compute_entitlement_statistics(
         self, beneficiary_list_id: str, bg_task_session: Session, sr_session: Session
     ):
-        # Abstract method to compute entitlements fields and modify summary
+        """
+        Abstract method to compute entitlement statistics and update relevant summary fields.
+        """
         raise NotImplementedError(
             "Subclasses must implement compute_entitlement_statistics()"
         )
@@ -60,22 +68,33 @@ class RegistryInterface(ABC):
     # Registry methods
     # =================
     @abstractmethod
-    def get_registrants_by_ids(self, registrant_ids) -> List[G2PRegistry]:
-        # Abstract method to fetch registrants from the database using session
-        raise NotImplementedError("Subclasses must implement get_registrants()")
+    def get_registrants_by_ids(
+        self, registrant_ids: List, sr_session: Session
+    ) -> List[G2PRegistry]:
+        """
+        Abstract method to fetch registrants for given registrant_ids from the registry database.
+        """
+        raise NotImplementedError("Subclasses must implement get_registrants_by_ids()")
 
     @abstractmethod
     def get_is_registant_entitled(
         self, registrant_id: str, sql_query: str, sr_session: Session
     ) -> bool:
-        # Abstract method to check if registrant is entitled
+        """
+        Abstract method to check if a registrant is entitled based on custom SQL and session.
+        """
         raise NotImplementedError(
             "Subclasses must implement get_is_registant_entitled()"
         )
 
     @abstractmethod
-    def get_entitlement_multiplier(self, multiplier: str, sr_session: Session) -> int:
-        # Abstract method to get the multiplier value for entitlement calculation
+    def get_entitlement_multiplier(
+        self, multiplier: str, registrant_id: str, sr_session: Session
+    ) -> int:
+        """
+        Abstract method to get the multiplier value for entitlement calculation
+        for a single registrant_id by executing a SQL query.
+        """
         raise NotImplementedError(
             "Subclasses must implement get_entitlement_multiplier()"
         )
@@ -84,15 +103,17 @@ class RegistryInterface(ABC):
     async def search_beneficiaries(
         self,
         bg_task_session: AsyncSession,
-        pbms_session: AsyncSession,
+        sr_session: AsyncSession,
         beneficiary_list_id: str,
         target_registry: str,
-        search_query: str,
-        page: int,
-        page_size: int,
-        order_by: str,
+        search_query,
+        page: int = 1,
+        page_size: int = 10,
+        order_by: str = "id asc",
     ) -> BeneficiarySearchResponsePayload:
-        # Abstract method to search beneficiaries for particular eligibility request id
+        """
+        Abstract method to search beneficiaries for particular eligibility request id.
+        """
         raise NotImplementedError("Subclasses must implement search_beneficiaries()")
 
     def get_bridge_disbursement_details(
@@ -101,11 +122,7 @@ class RegistryInterface(ABC):
         registrant_ids: List[str],
         bg_task_session: Session,
     ) -> List[Disbursement]:
-        sql_query = text("")
-
-        disbursements = bg_task_session.execute(sql_query)
-
-        return disbursements
+        raise NotImplementedError("Subclasses must implement get_bridge_disbursement_details()")
 
     # ===============================
     # Registry SQL Query Constructors
