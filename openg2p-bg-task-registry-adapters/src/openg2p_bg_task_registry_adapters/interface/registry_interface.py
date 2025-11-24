@@ -5,8 +5,8 @@ from openg2p_bg_task_models.schemas import (
     BeneficiarySearchResponsePayload,
     Disbursement,
 )
-from openg2p_bg_task_models.models import BeneficiaryListDetails
 from openg2p_pbms_models.models import G2PRegistry
+from openg2p_bg_task_models.models import BeneficiaryListDetails
 from sqlalchemy import TextClause, text
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Session
