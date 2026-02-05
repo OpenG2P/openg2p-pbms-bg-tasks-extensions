@@ -110,7 +110,7 @@ class RegistryInterface(ABC):
         search_query,
         page: int = 1,
         page_size: int = 10,
-        order_by: str = "id asc",
+        order_by: str = "internal_record_id asc",
     ) -> BeneficiarySearchResponsePayload:
         """
         Abstract method to search beneficiaries for particular eligibility request id.
@@ -134,11 +134,11 @@ class RegistryInterface(ABC):
         if not multiplier or multiplier == "none":
             return None
 
-        table_name = f"g2p_{target_registry}_registry"
+        table_name = f"g2p_register_{target_registry}"
         sql_query = text(
             f"""
             SELECT {multiplier} FROM {table_name}
-            WHERE link_registry_id = :registrant_id
+            WHERE internal_record_id = :registrant_id
             """
         )
         return sql_query
@@ -159,7 +159,7 @@ class RegistryInterface(ABC):
         where_clause = where_clause.replace("“", '"').replace("”", '"')
         where_clause = where_clause.replace("‘", "'").replace("’", "'")
 
-        table_name = f"g2p_{target_registry}_registry"
+        table_name = f"g2p_register_{target_registry}"
         where_clause_sql = f" AND {where_clause}" if where_clause else ""
         registrant_placeholders = ", ".join(
             [f":registrant_id_{i}" for i in range(len(registrant_ids))]
@@ -168,7 +168,7 @@ class RegistryInterface(ABC):
         sql_query = text(
             f"""
             SELECT * FROM {table_name}
-            WHERE link_registry_id IN ({registrant_placeholders}) {where_clause_sql}
+            WHERE internal_record_id IN ({registrant_placeholders}) {where_clause_sql}
             ORDER BY {order_by}
             OFFSET :offset
             LIMIT :limit
@@ -192,7 +192,7 @@ class RegistryInterface(ABC):
         where_clause = where_clause.replace("“", '"').replace("”", '"')
         where_clause = where_clause.replace("‘", "'").replace("’", "'")
 
-        table_name = f"g2p_{target_registry}_registry"
+        table_name = f"g2p_register_{target_registry}"
         where_clause_sql = f" AND {where_clause}" if where_clause else ""
         registrant_placeholders = ", ".join(
             [f":registrant_id_{i}" for i in range(len(registrant_ids))]
@@ -201,7 +201,7 @@ class RegistryInterface(ABC):
         sql_query = text(
             f"""
             SELECT COUNT(*) FROM {table_name}
-            WHERE link_registry_id IN ({registrant_placeholders}) {where_clause_sql}
+            WHERE internal_record_id IN ({registrant_placeholders}) {where_clause_sql}
         """
         )
 
@@ -223,11 +223,11 @@ class RegistryInterface(ABC):
 
         if "WHERE" in sql_query.upper():
             sql_query += (
-                f" AND g2p_{target_registry}_registry.link_registry_id = :registrant_id"
+                f" AND g2p_register_{target_registry}.internal_record_id = :registrant_id"
             )
         else:
             sql_query += (
-                f" WHERE g2p_{target_registry}_registry.link_registry_id = :registrant_id"
+                f" WHERE g2p_register_{target_registry}.internal_record_id = :registrant_id"
             )
 
         params = {"registrant_id": registrant_id}
