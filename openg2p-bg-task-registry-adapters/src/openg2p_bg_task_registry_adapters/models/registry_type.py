@@ -1,7 +1,6 @@
-import enum
+from enum import Enum
 
 
-class G2PRegistryType(enum.Enum):
-    FARMER = "farmer"
-    STUDENT = "student"
+class G2PRegistryType(Enum):
+    FAMILIES = "families"
     OTHER = "other"

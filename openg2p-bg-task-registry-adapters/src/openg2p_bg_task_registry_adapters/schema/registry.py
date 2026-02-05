@@ -5,5 +5,4 @@ from pydantic import BaseModel
 
 
 class G2PRegistryPayload(BaseModel):
-    id: int
-    link_registry_id: str
+    internal_record_id: str
