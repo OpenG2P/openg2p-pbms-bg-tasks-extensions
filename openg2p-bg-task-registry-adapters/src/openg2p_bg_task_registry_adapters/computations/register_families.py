@@ -151,6 +151,7 @@ class RegisterFamilies(RegistryInterface):
             beneficiaries = [
                 G2PRegisterFamiliesPayload(
                     internal_record_id=families["internal_record_id"],
+                    functional_record_id=families["functional_record_id"],
                     family_name=families["family_name"],
                     type_of_housing=families["type_of_housing"],
                     house_condition=families["house_condition"],
@@ -158,6 +159,7 @@ class RegisterFamilies(RegistryInterface):
                     water_access=families["water_access"],
                     electricity_access=families["electricity_access"],
                     ethnic_group=families["ethnic_group"],
+                    no_of_children=families["no_of_children"],
                     belong_to_protected_groups=families["belong_to_protected_groups"],
                     under_other_vulnerable_status=families["under_other_vulnerable_status"],
                 )

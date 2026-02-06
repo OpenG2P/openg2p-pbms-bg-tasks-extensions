@@ -8,6 +8,7 @@ class G2PRegisterFamilies(G2PRegistry):
 
 
     family_name: Mapped[str] = mapped_column(String, nullable=True)
+    functional_record_id: Mapped[str] = mapped_column(String, nullable=True)
     type_of_housing: Mapped[str] = mapped_column(String, nullable=True)
     house_condition: Mapped[str] = mapped_column(String, nullable=True)
     sanitation_condition: Mapped[str] = mapped_column(String, nullable=True)

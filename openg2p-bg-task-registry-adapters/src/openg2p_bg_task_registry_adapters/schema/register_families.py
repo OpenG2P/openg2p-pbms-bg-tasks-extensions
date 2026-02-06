@@ -6,6 +6,7 @@ from .registry import G2PRegistryPayload
 class G2PRegisterFamiliesPayload(G2PRegistryPayload):
 
     family_name: str
+    functional_record_id: str
     type_of_housing: Optional[str] = None
     house_condition: Optional[str] = None
     sanitation_condition: Optional[str] = None
