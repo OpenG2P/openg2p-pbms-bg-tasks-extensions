@@ -2,8 +2,6 @@ from datetime import datetime
 from typing import Any, Optional
 
 from pydantic import BaseModel
-from openg2p_bg_task_models.schemas import SummaryResponsePayloadBase
-
 
 class BeneficiaryListSummary(BaseModel):
     id: str
@@ -17,6 +15,6 @@ class BeneficiaryListSummary(BaseModel):
     average_entitlement_per_registrant: Optional[dict] = None
 
 
-class BeneficiaryListSummaryPayload(SummaryResponsePayloadBase):
+class BeneficiaryListSummaryPayload(BaseModel):
     beneficiary_list_summary: BeneficiaryListSummary
     registry_summary: Optional[Any] = None
