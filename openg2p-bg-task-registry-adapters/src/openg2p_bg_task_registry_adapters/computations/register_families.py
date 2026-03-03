@@ -1,4 +1,5 @@
-from typing import List
+import math
+from typing import List, Optional, Tuple
 
 import numpy as np
 from fastapi_cache.decorator import cache
@@ -7,6 +8,7 @@ from openg2p_bg_task_models.schemas import (
     BeneficiarySearchResponsePayload,
     RegistrantDetails,
 )
+from openg2p_fastapi_common.schemas import G2PPaginationRequest
 from openg2p_pbms_models.models import Gender
 from sqlalchemy import update
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -114,7 +116,7 @@ class RegisterFamilies(RegistryInterface):
         page=1,
         page_size=10,
         order_by="internal_record_id asc",
-    ) -> BeneficiarySearchResponsePayload:
+    ) -> Tuple[BeneficiarySearchResponsePayload, int]:
         registrant_details = await bg_task_session.execute(
             select(BeneficiaryListDetails.registrant_details).where(
                 BeneficiaryListDetails.beneficiary_list_id == beneficiary_list_id
@@ -167,13 +169,11 @@ class RegisterFamilies(RegistryInterface):
             ]
 
         response_payload = BeneficiarySearchResponsePayload(
-            total_beneficiary_count=total_beneficiary_count,
-            page=page,
-            page_size=page_size,
+            beneficiary_count=len(beneficiaries),
             beneficiaries=beneficiaries,
         )
 
-        return response_payload
+        return response_payload, total_beneficiary_count
 
     @cache(expire=120, key_builder=beneficiary_count_key_builder)
     async def _get_total_beneficiary_count(

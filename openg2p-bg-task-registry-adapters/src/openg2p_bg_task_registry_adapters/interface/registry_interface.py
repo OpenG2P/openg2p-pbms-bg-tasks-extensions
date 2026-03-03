@@ -1,10 +1,11 @@
 from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 from openg2p_bg_task_models.schemas import (
     BeneficiarySearchResponsePayload,
     Disbursement,
 )
+from openg2p_fastapi_common.schemas import G2PPaginationRequest
 from openg2p_pbms_models.models import G2PRegistry
 from openg2p_bg_task_models.models import BeneficiaryListDetails
 from sqlalchemy import TextClause, text
@@ -111,9 +112,11 @@ class RegistryInterface(ABC):
         page: int = 1,
         page_size: int = 10,
         order_by: str = "internal_record_id asc",
-    ) -> BeneficiarySearchResponsePayload:
+    ) -> Tuple[BeneficiarySearchResponsePayload, int]:
         """
         Abstract method to search beneficiaries for particular eligibility request id.
+        Returns a tuple of (response_payload, total_count) where total_count is the
+        total number of matching beneficiaries (used for pagination response).
         """
         raise NotImplementedError("Subclasses must implement search_beneficiaries()")
 
@@ -156,8 +159,8 @@ class RegistryInterface(ABC):
             return None, {}
 
         # Replace curly quotes in the where clause
-        where_clause = where_clause.replace("“", '"').replace("”", '"')
-        where_clause = where_clause.replace("‘", "'").replace("’", "'")
+        where_clause = where_clause.replace("\u201c", '"').replace("\u201d", '"')
+        where_clause = where_clause.replace("\u2018", "'").replace("\u2019", "'")
 
         table_name = f"g2p_register_{target_registry}"
         where_clause_sql = f" AND {where_clause}" if where_clause else ""
@@ -189,8 +192,8 @@ class RegistryInterface(ABC):
             return None, {}
 
         # Replace curly quotes in the where clause
-        where_clause = where_clause.replace("“", '"').replace("”", '"')
-        where_clause = where_clause.replace("‘", "'").replace("’", "'")
+        where_clause = where_clause.replace("\u201c", '"').replace("\u201d", '"')
+        where_clause = where_clause.replace("\u2018", "'").replace("\u2019", "'")
 
         table_name = f"g2p_register_{target_registry}"
         where_clause_sql = f" AND {where_clause}" if where_clause else ""
