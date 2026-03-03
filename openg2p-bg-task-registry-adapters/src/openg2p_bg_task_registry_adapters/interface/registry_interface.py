@@ -159,8 +159,8 @@ class RegistryInterface(ABC):
             return None, {}
 
         # Replace curly quotes in the where clause
-        where_clause = where_clause.replace("\u201c", '"').replace("\u201d", '"')
-        where_clause = where_clause.replace("\u2018", "'").replace("\u2019", "'")
+        where_clause = where_clause.replace("“", '"').replace("”", '"')
+        where_clause = where_clause.replace("‘", "'").replace("’", "'")
 
         table_name = f"g2p_register_{target_registry}"
         where_clause_sql = f" AND {where_clause}" if where_clause else ""
@@ -192,8 +192,8 @@ class RegistryInterface(ABC):
             return None, {}
 
         # Replace curly quotes in the where clause
-        where_clause = where_clause.replace("\u201c", '"').replace("\u201d", '"')
-        where_clause = where_clause.replace("\u2018", "'").replace("\u2019", "'")
+        where_clause = where_clause.replace("“", '"').replace("”", '"')
+        where_clause = where_clause.replace("‘", "'").replace("’", "'")
 
         table_name = f"g2p_register_{target_registry}"
         where_clause_sql = f" AND {where_clause}" if where_clause else ""
