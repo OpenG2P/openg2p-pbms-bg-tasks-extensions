@@ -14,3 +14,5 @@ class G2PStudentRegistry(G2PRegistry):
     large_area_code = mapped_column(String, nullable=True)
     small_area_id = mapped_column(Integer, nullable=True)
     small_area_code = mapped_column(String, nullable=True)
+    link_registry_id  = mapped_column(String, nullable=True)
+
