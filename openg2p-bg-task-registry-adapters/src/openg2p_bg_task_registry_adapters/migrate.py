@@ -1,7 +1,6 @@
-from .models import BeneficiaryListSummaryFarmer, BeneficiaryListSummaryStudent
+from .models import BeneficiaryListSummaryFamilies
 
 def get_models():
     return [
-        BeneficiaryListSummaryFarmer,
-        BeneficiaryListSummaryStudent,
+        BeneficiaryListSummaryFamilies,
     ]
