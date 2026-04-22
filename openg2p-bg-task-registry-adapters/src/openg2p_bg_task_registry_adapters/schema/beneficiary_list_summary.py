@@ -3,7 +3,6 @@ from typing import Any, Optional
 
 from pydantic import BaseModel
 
-
 class BeneficiaryListSummary(BaseModel):
     id: str
     program_id: int
