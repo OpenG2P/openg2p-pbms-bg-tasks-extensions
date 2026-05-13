@@ -57,3 +57,5 @@ class G2PRegisterHousehold(G2PRegistry):
     lighting_source: Mapped[str] = mapped_column(String, nullable=True)
     cooking_fuel_type: Mapped[str] = mapped_column(String, nullable=True)
     mobile_phone_type: Mapped[str] = mapped_column(String, nullable=True)
+
+    is_husband_dead: Mapped[str] = mapped_column(Boolean, nullable=True)
