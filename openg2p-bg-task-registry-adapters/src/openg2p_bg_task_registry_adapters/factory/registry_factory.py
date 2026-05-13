@@ -1,6 +1,11 @@
 from openg2p_bg_task_models.errors import BGTaskErrorCodes, BGTaskException
 
-from ..computations import RegisterFamilies, RegistryFarmer, RegistryStudent
+from ..computations import (
+    RegisterFamilies,
+    RegisterHousehold,
+    RegistryFarmer,
+    RegistryStudent,
+)
 from ..interface import RegistryInterface
 from ..models import G2PRegistryType
 
@@ -18,5 +23,7 @@ class RegistryFactory:
             return RegistryFarmer()
         elif target_registry == G2PRegistryType.STUDENT.value:
             return RegistryStudent()
+        elif target_registry == G2PRegistryType.HOUSEHOLD.value:
+            return RegisterHousehold()
         else:
             raise BGTaskException(code=BGTaskErrorCodes.INVALID_REQUEST)
