@@ -4,7 +4,7 @@ from sqlalchemy.orm import Mapped, mapped_column
 
 
 class G2PRegisterHousehold(G2PRegistry):
-    __tablename__ = "g2p_register_household"
+    __tablename__ = "g2p_register_households"
 
     # G2PRegister identity fields
     functional_record_id: Mapped[str] = mapped_column(String, nullable=True)
