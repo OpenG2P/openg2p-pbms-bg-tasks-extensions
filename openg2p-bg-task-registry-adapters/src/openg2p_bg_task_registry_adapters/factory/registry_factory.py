@@ -23,7 +23,7 @@ class RegistryFactory:
             return RegistryFarmer()
         elif target_registry == G2PRegistryType.STUDENT.value:
             return RegistryStudent()
-        elif target_registry == G2PRegistryType.HOUSEHOLD.value:
+        elif target_registry == G2PRegistryType.HOUSEHOLDS.value:
             return RegisterHousehold()
         else:
             raise BGTaskException(code=BGTaskErrorCodes.INVALID_REQUEST)

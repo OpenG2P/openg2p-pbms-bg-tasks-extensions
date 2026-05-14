@@ -202,7 +202,7 @@ class RegisterHousehold(RegistryInterface):
             beneficiary_count_query,
             beneficiary_count_params,
         ) = self.construct_beneficiary_search_count_sql_query(
-            registrant_ids, "household", search_query
+            registrant_ids, "households", search_query
         )
         total_beneficiary_count = (
             await sr_session.execute(beneficiary_count_query, beneficiary_count_params)
@@ -298,7 +298,7 @@ class RegisterHousehold(RegistryInterface):
     ) -> bool:
         sql_query_with_registrant_id = (
             self.construct_get_is_registrant_entitled_sql_query(
-                registrant_id, "household", sql_query
+                registrant_id, "households", sql_query
             )
         )
         result = sr_session.execute(sql_query_with_registrant_id).fetchone()
@@ -311,7 +311,7 @@ class RegisterHousehold(RegistryInterface):
             return 1
 
         sql_query = self.construct_multiplier_sql_query(
-            multiplier, target_registry="household"
+            multiplier, target_registry="households"
         )
         params = {"registrant_id": registrant_id}
         result = sr_session.execute(sql_query, params).fetchone()
