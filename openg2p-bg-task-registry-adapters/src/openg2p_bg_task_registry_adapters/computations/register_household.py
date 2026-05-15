@@ -1,8 +1,11 @@
+import logging
 from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
 from fastapi_cache.decorator import cache
 from openg2p_bg_task_models.models import BeneficiaryListDetails
+
+_logger = logging.getLogger(__name__)
 from openg2p_bg_task_models.schemas import (
     BeneficiarySearchResponsePayload,
     RegistrantDetails,
@@ -126,10 +129,14 @@ class RegisterHousehold(RegistryInterface):
             )
         )
         registrant_details = registrant_details_result.scalars().all()
+        _logger.info("search_beneficiaries: beneficiary_list_id=%r registrant_details row_count=%d", beneficiary_list_id, len(registrant_details))
         registrant_ids = []
         for registrant_detail in registrant_details:
             for registrant in registrant_detail:
                 registrant_ids.append(registrant["registrant_id"])
+
+        _logger.info("search_beneficiaries: registrant_ids count=%d ids=%r", len(registrant_ids), registrant_ids)
+        _logger.info("search_beneficiaries: search_query=%r order_by=%r page=%r page_size=%r", search_query, order_by, page, page_size)
 
         (
             household_search_query,
@@ -142,15 +149,19 @@ class RegisterHousehold(RegistryInterface):
             page_size,
             page,
         )
+        _logger.info("search_beneficiaries: sql=%r params=%r", str(household_search_query), household_search_params)
+
         household_search_results = (
             (await sr_session.execute(household_search_query, household_search_params))
             .mappings()
             .all()
         )
+        _logger.info("search_beneficiaries: result_count=%d", len(household_search_results))
 
         total_beneficiary_count: int = await self._get_total_beneficiary_count(
             sr_session, beneficiary_list_id, registrant_ids, search_query
         )
+        _logger.info("search_beneficiaries: total_beneficiary_count=%d", total_beneficiary_count)
 
         beneficiaries = []
         if household_search_results:
@@ -198,16 +209,18 @@ class RegisterHousehold(RegistryInterface):
         registrant_ids: List[str],
         search_query: Optional[str] = None,
     ) -> int:
+        _logger.info("_get_total_beneficiary_count: registrant_ids count=%d search_query=%r", len(registrant_ids), search_query)
         (
             beneficiary_count_query,
             beneficiary_count_params,
         ) = self.construct_beneficiary_search_count_sql_query(
             registrant_ids, "households", search_query
         )
+        _logger.info("_get_total_beneficiary_count: count_sql=%r params=%r", str(beneficiary_count_query), beneficiary_count_params)
         total_beneficiary_count = (
             await sr_session.execute(beneficiary_count_query, beneficiary_count_params)
         ).scalar_one()
-
+        _logger.info("_get_total_beneficiary_count: result=%d", total_beneficiary_count)
         return total_beneficiary_count
 
     # =================================
