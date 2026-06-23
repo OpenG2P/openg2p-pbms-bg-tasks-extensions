@@ -1,5 +1,5 @@
 from openg2p_pbms_models.models import G2PRegistry
-from sqlalchemy import JSON, Boolean, Date, Integer, Numeric, String
+from sqlalchemy import JSON, Boolean, DateTime, Integer, Numeric, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 
@@ -59,4 +59,4 @@ class G2PRegisterHousehold(G2PRegistry):
     mobile_phone_type: Mapped[str] = mapped_column(String, nullable=True)
 
     husband_dead: Mapped[bool] = mapped_column(Boolean, nullable=True)
-    husband_dead_date: Mapped[Date] = mapped_column(Date, nullable=True)
+    husband_death_date: Mapped[DateTime] = mapped_column(DateTime, nullable=True)

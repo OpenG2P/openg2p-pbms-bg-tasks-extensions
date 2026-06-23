@@ -64,29 +64,17 @@ class RegistryFarmer(RegistryInterface):
                 average_entitlement_per_registrant=beneficiary_list_summary_farmer.average_entitlement_per_person,
             ),
             registry_summary=BeneficiaryListSummaryFarmer(
-                land_holding_mean=f"{beneficiary_list_summary_farmer.land_holding_mean} {beneficiary_list_summary_farmer.land_holding_units}"
-                if beneficiary_list_summary_farmer.land_holding_mean is not None
+                estimated_age_mean=f"{beneficiary_list_summary_farmer.estimated_age_mean} {beneficiary_list_summary_farmer.estimated_age_units}"
+                if beneficiary_list_summary_farmer.estimated_age_mean is not None
                 else None,
-                land_holding_q1=f"{beneficiary_list_summary_farmer.land_holding_q1} {beneficiary_list_summary_farmer.land_holding_units}"
-                if beneficiary_list_summary_farmer.land_holding_q1 is not None
+                estimated_age_q1=f"{beneficiary_list_summary_farmer.estimated_age_q1} {beneficiary_list_summary_farmer.estimated_age_units}"
+                if beneficiary_list_summary_farmer.estimated_age_q1 is not None
                 else None,
-                land_holding_q2=f"{beneficiary_list_summary_farmer.land_holding_q2} {beneficiary_list_summary_farmer.land_holding_units}"
-                if beneficiary_list_summary_farmer.land_holding_q2 is not None
+                estimated_age_q2=f"{beneficiary_list_summary_farmer.estimated_age_q2} {beneficiary_list_summary_farmer.estimated_age_units}"
+                if beneficiary_list_summary_farmer.estimated_age_q2 is not None
                 else None,
-                land_holding_q3=f"{beneficiary_list_summary_farmer.land_holding_q3} {beneficiary_list_summary_farmer.land_holding_units}"
-                if beneficiary_list_summary_farmer.land_holding_q3 is not None
-                else None,
-                annual_income_mean=f"{beneficiary_list_summary_farmer.annual_income_mean} {beneficiary_list_summary_farmer.annual_income_units}"
-                if beneficiary_list_summary_farmer.annual_income_mean is not None
-                else None,
-                annual_income_q1=f"{beneficiary_list_summary_farmer.annual_income_q1} {beneficiary_list_summary_farmer.annual_income_units}"
-                if beneficiary_list_summary_farmer.annual_income_q1 is not None
-                else None,
-                annual_income_q2=f"{beneficiary_list_summary_farmer.annual_income_q2} {beneficiary_list_summary_farmer.annual_income_units}"
-                if beneficiary_list_summary_farmer.annual_income_q2 is not None
-                else None,
-                annual_income_q3=f"{beneficiary_list_summary_farmer.annual_income_q3} {beneficiary_list_summary_farmer.annual_income_units}"
-                if beneficiary_list_summary_farmer.annual_income_q3 is not None
+                estimated_age_q3=f"{beneficiary_list_summary_farmer.estimated_age_q3} {beneficiary_list_summary_farmer.estimated_age_units}"
+                if beneficiary_list_summary_farmer.estimated_age_q3 is not None
                 else None,
                 average_entitlement_female=beneficiary_list_summary_farmer.average_entitlement_female,
                 average_entitlement_male=beneficiary_list_summary_farmer.average_entitlement_male,
@@ -126,29 +114,17 @@ class RegistryFarmer(RegistryInterface):
                 average_entitlement_per_registrant=beneficiary_list_summary_farmer.average_entitlement_per_person,
             ),
             registry_summary=BeneficiaryListSummaryFarmer(
-                land_holding_mean=f"{beneficiary_list_summary_farmer.land_holding_mean} {beneficiary_list_summary_farmer.land_holding_units}"
-                if beneficiary_list_summary_farmer.land_holding_mean is not None
+                estimated_age_mean=f"{beneficiary_list_summary_farmer.estimated_age_mean} {beneficiary_list_summary_farmer.estimated_age_units}"
+                if beneficiary_list_summary_farmer.estimated_age_mean is not None
                 else None,
-                land_holding_q3=f"{beneficiary_list_summary_farmer.land_holding_q3} {beneficiary_list_summary_farmer.land_holding_units}"
-                if beneficiary_list_summary_farmer.land_holding_q3 is not None
+                estimated_age_q3=f"{beneficiary_list_summary_farmer.estimated_age_q3} {beneficiary_list_summary_farmer.estimated_age_units}"
+                if beneficiary_list_summary_farmer.estimated_age_q3 is not None
                 else None,
-                land_holding_q2=f"{beneficiary_list_summary_farmer.land_holding_q2} {beneficiary_list_summary_farmer.land_holding_units}"
-                if beneficiary_list_summary_farmer.land_holding_q2 is not None
+                estimated_age_q2=f"{beneficiary_list_summary_farmer.estimated_age_q2} {beneficiary_list_summary_farmer.estimated_age_units}"
+                if beneficiary_list_summary_farmer.estimated_age_q2 is not None
                 else None,
-                land_holding_q1=f"{beneficiary_list_summary_farmer.land_holding_q1} {beneficiary_list_summary_farmer.land_holding_units}"
-                if beneficiary_list_summary_farmer.land_holding_q1 is not None
-                else None,
-                annual_income_mean=f"{beneficiary_list_summary_farmer.annual_income_mean} {beneficiary_list_summary_farmer.annual_income_units}"
-                if beneficiary_list_summary_farmer.annual_income_mean is not None
-                else None,
-                annual_income_q3=f"{beneficiary_list_summary_farmer.annual_income_q3} {beneficiary_list_summary_farmer.annual_income_units}"
-                if beneficiary_list_summary_farmer.annual_income_q3 is not None
-                else None,
-                annual_income_q2=f"{beneficiary_list_summary_farmer.annual_income_q2} {beneficiary_list_summary_farmer.annual_income_units}"
-                if beneficiary_list_summary_farmer.annual_income_q2 is not None
-                else None,
-                annual_income_q1=f"{beneficiary_list_summary_farmer.annual_income_q1} {beneficiary_list_summary_farmer.annual_income_units}"
-                if beneficiary_list_summary_farmer.annual_income_q1 is not None
+                estimated_age_q1=f"{beneficiary_list_summary_farmer.estimated_age_q1} {beneficiary_list_summary_farmer.estimated_age_units}"
+                if beneficiary_list_summary_farmer.estimated_age_q1 is not None
                 else None,
                 average_entitlement_female=beneficiary_list_summary_farmer.average_entitlement_female,
                 average_entitlement_male=beneficiary_list_summary_farmer.average_entitlement_male,
@@ -214,15 +190,16 @@ class RegistryFarmer(RegistryInterface):
         if farmer_search_results:
             beneficiaries = [
                 G2PFarmerRegistryPayload(
-                    id=farmer["id"],
-                    link_registry_id=farmer["link_registry_id"],
-                    name=farmer["name"],
-                    land_area=farmer["land_area"],
-                    annual_income=farmer["annual_income"],
-                    no_of_cattle_heads=farmer["no_of_cattle_heads"],
-                    no_of_poultry_heads=farmer["no_of_poultry_heads"],
-                    large_area_code=farmer["large_area_code"],
-                    small_area_code=farmer["small_area_code"],
+                    internal_record_id=farmer["internal_record_id"],
+                    functional_record_id=farmer["functional_record_id"],
+                    first_name=farmer["first_name"],
+                    last_name=farmer["last_name"],
+                    gender=farmer["gender"],
+                    estimated_age=farmer["estimated_age"],
+                    disabled=farmer["disabled"],
+                    source_of_income=farmer["source_of_income"],
+                    education_level=farmer["education_level"],
+                    country_code=farmer["country_code"],
                 )
                 for farmer in farmer_search_results
             ]
@@ -275,8 +252,7 @@ class RegistryFarmer(RegistryInterface):
             date_created=base_summary.date_created,
         )
 
-        land_areas = []
-        annual_incomes = []
+        estimated_ages = []
 
         for beneficiary_list_detail in beneficiary_list_details:
             registrant_ids = []
@@ -286,39 +262,23 @@ class RegistryFarmer(RegistryInterface):
 
             registrants = self.get_registrants_by_ids(registrant_ids, sr_session)
             for farmer in registrants:
-                land_areas.append(farmer.land_area)
-                annual_incomes.append(farmer.annual_income)
+                if farmer.estimated_age is not None:
+                    estimated_ages.append(farmer.estimated_age)
 
-        # Land Area Summary
-        if land_areas:
-            land_areas_array = np.array(land_areas)
-            farmer_summary.land_holding_mean = round(
-                float(np.mean(land_areas_array)), 2
+        # Estimated Age Summary
+        if estimated_ages:
+            estimated_ages_array = np.array(estimated_ages)
+            farmer_summary.estimated_age_mean = round(
+                float(np.mean(estimated_ages_array)), 2
             )
-            farmer_summary.land_holding_q1 = round(
-                float(np.percentile(land_areas_array, 25, method="midpoint")), 2
+            farmer_summary.estimated_age_q1 = round(
+                float(np.percentile(estimated_ages_array, 25, method="midpoint")), 2
             )
-            farmer_summary.land_holding_q2 = round(
-                float(np.percentile(land_areas_array, 50, method="midpoint")), 2
+            farmer_summary.estimated_age_q2 = round(
+                float(np.percentile(estimated_ages_array, 50, method="midpoint")), 2
             )
-            farmer_summary.land_holding_q3 = round(
-                float(np.percentile(land_areas_array, 75, method="midpoint")), 2
-            )
-
-        # Annual Income Summary
-        if annual_incomes:
-            annual_incomes_array = np.array(annual_incomes)
-            farmer_summary.annual_income_mean = round(
-                float(np.mean(annual_incomes_array)), 2
-            )
-            farmer_summary.annual_income_q1 = round(
-                float(np.percentile(annual_incomes_array, 25, method="midpoint")), 2
-            )
-            farmer_summary.annual_income_q2 = round(
-                float(np.percentile(annual_incomes_array, 50, method="midpoint")), 2
-            )
-            farmer_summary.annual_income_q3 = round(
-                float(np.percentile(annual_incomes_array, 75, method="midpoint")), 2
+            farmer_summary.estimated_age_q3 = round(
+                float(np.percentile(estimated_ages_array, 75, method="midpoint")), 2
             )
 
         bg_task_session.add(farmer_summary)
@@ -327,7 +287,7 @@ class RegistryFarmer(RegistryInterface):
         self, registrant_ids, sr_session
     ) -> List[G2PFarmerRegistry]:
         farmers = sr_session.query(G2PFarmerRegistry).filter(
-            G2PFarmerRegistry.link_registry_id.in_(registrant_ids)
+            G2PFarmerRegistry.internal_record_id.in_(registrant_ids)
         )
 
         return list(farmers.yield_per(500))
@@ -386,7 +346,7 @@ class RegistryFarmer(RegistryInterface):
             )
 
             for registrant in registrants_list:
-                registrant_map_from_registry[str(registrant.link_registry_id)] = registrant
+                registrant_map_from_registry[str(registrant.internal_record_id)] = registrant
 
         # Collect entitlements per benefit_code_id
         entitlements: dict[int, list[float]] = {}
@@ -399,20 +359,18 @@ class RegistryFarmer(RegistryInterface):
                 registrant = registrant_map_from_registry.get(
                     str(registrant_detail.registrant_id)
                 )
-                gender = registrant.gender if registrant else None
+                gender = (registrant.gender or "").lower() if registrant else None
 
                 for benefit_code_id, value in registrant_detail.entitlement.items():
                     # All entitlements
                     entitlements.setdefault(benefit_code_id, []).append(value)
-                    # By gender
+                    # By gender (skip non-binary / unknown genders)
                     if gender == Gender.MALE.value:
                         entitlements_male.setdefault(benefit_code_id, []).append(value)
                     elif gender == Gender.FEMALE.value:
                         entitlements_female.setdefault(benefit_code_id, []).append(
                             value
                         )
-                    else:
-                        raise ValueError(f"Invalid gender: {gender}")
 
         # Compute all summary stats per benefit_code_id
         entitlement_stats = self.compute_stats_dict(entitlements)

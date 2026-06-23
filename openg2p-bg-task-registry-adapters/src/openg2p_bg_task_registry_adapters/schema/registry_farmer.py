@@ -4,11 +4,12 @@ from .registry import G2PRegistryPayload
 
 
 class G2PFarmerRegistryPayload(G2PRegistryPayload):
-    name: str
+    functional_record_id: Optional[str] = None
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
     gender: Optional[str] = None
-    land_area: Optional[float] = None
-    annual_income: Optional[float] = None
-    no_of_cattle_heads: Optional[int] = None
-    no_of_poultry_heads: Optional[int] = None
-    small_area_code: Optional[str] = None
-    large_area_code: Optional[str] = None
+    estimated_age: Optional[int] = None
+    disabled: Optional[bool] = None
+    source_of_income: Optional[str] = None
+    education_level: Optional[str] = None
+    country_code: Optional[str] = None
