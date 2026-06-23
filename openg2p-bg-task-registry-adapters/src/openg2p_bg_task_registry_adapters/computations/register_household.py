@@ -130,7 +130,6 @@ class RegisterHousehold(RegistryInterface):
         )
         registrant_details = registrant_details_result.scalars().all()
         _logger.info("search_beneficiaries: beneficiary_list_id=%r registrant_details row_count=%d", beneficiary_list_id, len(registrant_details))
-        print(f"[HH_DEBUG] search_beneficiaries: beneficiary_list_id={beneficiary_list_id!r} row_count={len(registrant_details)}", flush=True)
         registrant_ids = []
         for registrant_detail in registrant_details:
             for registrant in registrant_detail:
@@ -138,8 +137,6 @@ class RegisterHousehold(RegistryInterface):
 
         _logger.info("search_beneficiaries: registrant_ids count=%d ids=%r", len(registrant_ids), registrant_ids)
         _logger.info("search_beneficiaries: search_query=%r order_by=%r page=%r page_size=%r", search_query, order_by, page, page_size)
-        print(f"[HH_DEBUG] registrant_ids count={len(registrant_ids)} ids={registrant_ids!r}", flush=True)
-        print(f"[HH_DEBUG] search_query={search_query!r} order_by={order_by!r} page={page} page_size={page_size}", flush=True)
 
         (
             household_search_query,
@@ -153,7 +150,6 @@ class RegisterHousehold(RegistryInterface):
             page,
         )
         _logger.info("search_beneficiaries: sql=%r params=%r", str(household_search_query), household_search_params)
-        print(f"[HH_DEBUG] sql={str(household_search_query)!r} params={household_search_params!r}", flush=True)
 
         household_search_results = (
             (await sr_session.execute(household_search_query, household_search_params))
@@ -161,13 +157,11 @@ class RegisterHousehold(RegistryInterface):
             .all()
         )
         _logger.info("search_beneficiaries: result_count=%d", len(household_search_results))
-        print(f"[HH_DEBUG] result_count={len(household_search_results)}", flush=True)
 
         total_beneficiary_count: int = await self._get_total_beneficiary_count(
             sr_session, beneficiary_list_id, registrant_ids, search_query
         )
         _logger.info("search_beneficiaries: total_beneficiary_count=%d", total_beneficiary_count)
-        print(f"[HH_DEBUG] total_beneficiary_count={total_beneficiary_count}", flush=True)
 
         beneficiaries = []
         if household_search_results:
@@ -216,7 +210,6 @@ class RegisterHousehold(RegistryInterface):
         search_query: Optional[str] = None,
     ) -> int:
         _logger.info("_get_total_beneficiary_count: registrant_ids count=%d search_query=%r", len(registrant_ids), search_query)
-        print(f"[HH_DEBUG] _get_total_beneficiary_count: count={len(registrant_ids)} search_query={search_query!r}", flush=True)
         (
             beneficiary_count_query,
             beneficiary_count_params,
@@ -224,12 +217,10 @@ class RegisterHousehold(RegistryInterface):
             registrant_ids, "households", search_query
         )
         _logger.info("_get_total_beneficiary_count: count_sql=%r params=%r", str(beneficiary_count_query), beneficiary_count_params)
-        print(f"[HH_DEBUG] count_sql={str(beneficiary_count_query)!r} params={beneficiary_count_params!r}", flush=True)
         total_beneficiary_count = (
             await sr_session.execute(beneficiary_count_query, beneficiary_count_params)
         ).scalar_one()
         _logger.info("_get_total_beneficiary_count: result=%d", total_beneficiary_count)
-        print(f"[HH_DEBUG] _get_total_beneficiary_count: result={total_beneficiary_count}", flush=True)
         return total_beneficiary_count
 
     # =================================
